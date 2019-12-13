@@ -1,0 +1,12 @@
+/node_modules
+.idea
+.env
+.env.production
+smtp.config.json
+**/.DS_Store
+*.iml
+yarn.lock
+**-lock.json
+/nbproject
+/upload
+/dist
