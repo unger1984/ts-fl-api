@@ -1,12 +1,14 @@
 # PetProject
-
 Parsing projects from FL.RU to database and REST API for it
 
 ## info
-
 Project created as part of the study TypeScript
 
+### status:
+Completed
+
 ### use:
+* TypeScript
 * PostgreSQL
 * Sequelize
 * Koa2
