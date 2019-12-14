@@ -38,23 +38,24 @@ const saveCategoryes = async (categoryes: string[]): Promise<Category | null> =>
 
 let usedProxy: string | null | undefined = null;
 let proxyList: string[] = [];
+let skipCounter = 0;
 
 const parse = async () => {
 	const args = ['--no-sandbox'];
-	if (usedProxy) {
-		args.push(`--proxy-server=${usedProxy}`);
-	} else {
-		try {
-			if (proxyList.length <= 0) {
-				proxyList = await getProxy();
-			}
-			if (proxyList.length > 0) {
+	try {
+		if (proxyList.length <= 0) {
+			proxyList = await getProxy();
+		}
+		if (proxyList.length > 0) {
+			if (!usedProxy || skipCounter > 10) {
 				usedProxy = proxyList.pop();
 				args.push(`--proxy-server=${usedProxy}`);
+			} else if (usedProxy) {
+				args.push(`--proxy-server=${usedProxy}`);
 			}
-		} catch (err) {
-			logger.info('not use proxy', err);
 		}
+	} catch (err) {
+		logger.info('not use proxy', err);
 	}
 
 	logger.info('use', args);
@@ -76,24 +77,11 @@ const parse = async () => {
 			'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 		);
 		await page.goto('https://www.fl.ru/projects/?kind=1');
-		// await page.screenshot({path: '/tmp/test.png'});
-		// await page.waitFor(1000*10)
 		const hideButton = await page.$('#hide_top_project_lnk');
 		if (hideButton) {
 			await hideButton.click();
 		}
-		// await (await page.$('.b-filter-toggle-link')).click()
-		// await page.screenshot({path: 'screenshots/test.png'});
 
-		// const hiddenDiv = await page.$(
-		// 	'.b-menu__filter > .b-layout__txt.b-layout__txt_color_323232.b-layout__txt_valign_top.b-layout__txt_float_left.b-layout__txt_right',
-		// );
-		// if(hiddenDiv) {
-		//     hidden = parseInt(await (await (hiddenDiv)
-		//         .getProperty("innerText")).jsonValue())
-		//     if (!hidden || isNaN(hidden))
-		//         hidden = 0;
-		// }else
 		hidden = 0;
 
 		pPosts = await page.$$('.b-post:not(.topprjpay)');
@@ -106,8 +94,8 @@ const parse = async () => {
 		setTimeout(parse, 1000);
 		return;
 	}
-	// await page.screenshot({path: 'screenshots/test.png'});
 
+	let projectCounter = 0;
 	if (pPosts && pPosts.length > hidden) {
 		for (let index = hidden; index < pPosts.length; index++) {
 			try {
@@ -174,10 +162,10 @@ const parse = async () => {
 					).jsonValue()) as string,
 				);
 
-				// await page.screenshot({path: 'screenshots/'+id+'.png'});
 				const sproject = await Project.create(project);
 				await sproject.save();
 				logger.info('project', index, id);
+				projectCounter++;
 			} catch (err) {
 				if (err.name && err.name === 'SequelizeUniqueConstraintError') {
 					logger.error('BREAK');
@@ -189,6 +177,9 @@ const parse = async () => {
 	}
 	if (browser) {
 		await browser.close();
+	}
+	if (projectCounter <= 0) {
+		skipCounter++;
 	}
 
 	// удалим все старое
