@@ -1,5 +1,6 @@
 # Study Project
-Parsing projects from FL.RU to database and REST API for it
+Parsing projects from FL.RU to database and REST API for it.
+This is Koa2 implementation, for Nest.js implementation see https://github.com/unger1984/nest-fl-api
 
 For SPA Frontend use https://github.com/unger1984/ts-fl-spa
 

@@ -11,7 +11,7 @@ import Project from './Project';
 
 const sequelize = new Sequelize(config.db.database, config.db.username, config.db.password, {
 	...config.db.options,
-	logging: sql => logger.debug(sql),
+	logging: config.db.options.logging ? sql => logger.debug(sql) : false,
 });
 
 // const currentFieName = basename(__filename);

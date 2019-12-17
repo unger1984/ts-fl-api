@@ -10,9 +10,6 @@ migrate().then(() => {
 		if (err) {
 			throw err;
 		}
-		logger.info(
-			{ event: 'execute' },
-			`API Server started success https://${config.HTTP_SERVER_HOST}:${config.HTTP_SERVER_PORT}`,
-		);
+		logger.info(`API Server started success https://${config.HTTP_SERVER_HOST}:${config.HTTP_SERVER_PORT}`);
 	});
 });

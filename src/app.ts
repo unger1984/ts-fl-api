@@ -4,6 +4,7 @@ import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import Koa from 'koa';
 import cors from '@koa/cors';
+import uuid from 'uuid/v4';
 
 import config from './config';
 import logger from './logger';
@@ -32,8 +33,15 @@ export default class App extends Koa {
 		this.use(cors({ origin: '*' }));
 		// Подключаем логгер
 		this.use(async (ctx, next) => {
+			ctx.requestId = uuid();
+			await next();
+		});
+		this.use(async (ctx, next) => {
+			const start = new Date().getTime();
 			ctx.logger = logger;
 			await next();
+			const ms = new Date().getTime() - start;
+			logger.info(ctx.requestId, ctx.method, ctx.url, `${ms}ms`);
 		});
 		// Обработчик ошибок
 		// this.koa.use(middlewareErrorHandler);
@@ -43,9 +51,9 @@ export default class App extends Koa {
 		this.use(api.routes());
 		this.use(api.allowedMethods({ throw: true }));
 		// Статика для локалки
-		// if (config.ENV === 'development') {
-		// 	this.koa.use(mount('/upload', stat(config.UPLOAD_PATH)));
-		// }
+		if (config.ENV === 'development') {
+			// this.use(mount('/upload', stat(config.UPLOAD_PATH)));
+		}
 	}
 
 	listen(...args: any[]) {
