@@ -13,7 +13,7 @@ router.get('/', async ctx => {
 		where: { parentId: null },
 		include: [{ model: Category, as: 'child', include: [{ model: Category, as: 'child' }] }],
 	});
-	ctx.body = { status: true, data: categoryes };
+	ctx.body = { success: true, data: categoryes };
 });
 
 // delete
@@ -30,21 +30,21 @@ router.delete('/:id', async ctx => {
 		}
 		await category.destroy();
 	}
-	ctx.body = { status: true };
+	ctx.body = { success: true };
 });
 
 // edit
 router.post('/:id', async ctx => {
 	const category = (await Category.findOne({ where: { id: parseInt(ctx.params.id) } })) as Category;
 	await category.update(ctx.request.body);
-	ctx.body = { status: true, data: category };
+	ctx.body = { success: true, data: category };
 });
 
 // create
 router.put('/', async ctx => {
 	const category = await Category.create(ctx.request.body);
 	await category.save();
-	ctx.body = { status: true, data: category };
+	ctx.body = { success: true, data: category };
 });
 
 export default router;

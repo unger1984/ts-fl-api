@@ -50,7 +50,7 @@ router.get('/', async ctx => {
 		offset: page * count,
 		limit: count,
 	});
-	ctx.body = { status: true, data: res };
+	ctx.body = { success: true, data: res };
 });
 
 export default router;

@@ -20,7 +20,7 @@ router.put('/', async ctx => {
 	} else {
 		await user.update(puser);
 	}
-	ctx.body = { status: true, data: user };
+	ctx.body = { success: true, data: user };
 });
 
 export default router;
