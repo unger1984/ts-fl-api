@@ -1,5 +1,5 @@
 import { Column, Model, Table, DataType, AllowNull, PrimaryKey, Default } from 'sequelize-typescript';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
 @Table({ tableName: 'User' })
 export default class User extends Model<User> {

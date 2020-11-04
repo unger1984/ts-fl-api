@@ -1,7 +1,8 @@
 import Router from 'koa-router';
 import body from 'koa-json';
 
-import { Category, Project } from '../models';
+import Project from '../models/Project';
+import Category from '../models/Category';
 
 const router = new Router({ prefix: '/project' });
 

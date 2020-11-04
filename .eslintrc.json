@@ -50,7 +50,11 @@
     "prefer-arrow-callback": 2,
     "prefer-const": 2,
     "prefer-promise-reject-errors": 2,
-    "prettier/prettier": 2
+    "prettier/prettier": 2,
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/ban-ts-comment": 1,
+    "@typescript-eslint/no-non-null-assertion": 0
   },
   "settings": {
     "import/resolver": {

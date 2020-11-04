@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import Koa from 'koa';
 import cors from '@koa/cors';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
 
 import config from './config';
 import logger from './logger';

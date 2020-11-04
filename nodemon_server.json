@@ -4,6 +4,6 @@
   ],
   "ext": "ts",
   "execMap": {
-    "ts": "ts-node src/server.ts"
+    "ts": "ts-node --files src/server.ts"
   }
 }

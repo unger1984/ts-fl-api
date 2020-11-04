@@ -1,10 +1,14 @@
+require('./sequelize');
+
 import puppeteer from 'puppeteer';
 import moment from 'moment';
 
-import { Category, Project, op } from './models';
 import { flStrip, fltoDate } from './utils';
 import getProxy from './proxy';
 import logger from './logger';
+import Project from './models/Project';
+import Category from './models/Category';
+import { op } from './sequelize';
 
 interface ProjectType {
 	flId: number;

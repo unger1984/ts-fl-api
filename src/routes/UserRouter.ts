@@ -1,7 +1,7 @@
 import Router from 'koa-router';
 import body from 'koa-json';
 
-import { User } from '../models';
+import User from '../models/User';
 
 const router = new Router({ prefix: '/user' });
 
