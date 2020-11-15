@@ -19,7 +19,7 @@ const GetProxy = async (): Promise<string[]> => {
 		);
 		await page.goto('https://hidemyna.me/ru/proxy-list/?maxtime=700&type=s#list');
 		// await page.screenshot({path: '/tmp/test.png'});
-		await page.waitFor(1000 * 15);
+		await page.waitForTimeout(1000 * 15);
 		// await page.screenshot({path: 'screenshots/test.png'});
 		const table = await page.$('div.table_block table');
 		if (table) {
