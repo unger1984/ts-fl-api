@@ -48,16 +48,13 @@ const parse = async () => {
 	const args = ['--no-sandbox'];
 	try {
 		if (proxyList.length <= 0) {
-			proxyList = await getProxy();
-		}
-		if (proxyList.length > 0) {
-			if (!usedProxy || skipCounter > 4) {
-				usedProxy = proxyList.pop();
-				skipCounter = 0;
-				args.push(`--proxy-server=${usedProxy}`);
-			} else if (usedProxy) {
-				args.push(`--proxy-server=${usedProxy}`);
-			}
+			proxyList = ['empty', ...(await getProxy())];
+		} else if (!usedProxy || skipCounter > 4) {
+			usedProxy = proxyList.pop();
+			skipCounter = 0;
+			if (usedProxy !== 'empty') args.push(`--proxy-server=${usedProxy}`);
+		} else if (usedProxy) {
+			if (usedProxy !== 'empty') args.push(`--proxy-server=${usedProxy}`);
 		}
 	} catch (err) {
 		logger.info('not use proxy', err);
