@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const uuid = require('uuid/v4');
+const uuid = require('uuid').v4;
 
 module.exports = {
 	up: (queryInterface, Sequelize) => {

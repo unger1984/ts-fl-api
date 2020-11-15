@@ -51,8 +51,9 @@ const parse = async () => {
 			proxyList = await getProxy();
 		}
 		if (proxyList.length > 0) {
-			if (!usedProxy || skipCounter > 10) {
+			if (!usedProxy || skipCounter > 4) {
 				usedProxy = proxyList.pop();
+				skipCounter = 0;
 				args.push(`--proxy-server=${usedProxy}`);
 			} else if (usedProxy) {
 				args.push(`--proxy-server=${usedProxy}`);
@@ -92,6 +93,7 @@ const parse = async () => {
 	} catch (err) {
 		logger.error(err);
 		usedProxy = null;
+		skipCounter++;
 		if (browser) {
 			await browser.close();
 		}
